@@ -1,4 +1,5 @@
 import asyncio
+from uuid import uuid4
 
 from sqlalchemy.ext.asyncio.engine import create_async_engine
 from sqlalchemy.sql.sqltypes import String, Boolean
@@ -9,13 +10,8 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.asyncio.session import AsyncSession
 from sqlalchemy.sql.expression import text
 
-from uuid import uuid4
-
-# TODO idk how install own module by "pip install -Ue ." – it doesn't work
-import sys
-sys.path.append('..')
-
 from database.config import settings
+
 
 convention = {
     'all_column_names': lambda constraint, table: '_'.join([
