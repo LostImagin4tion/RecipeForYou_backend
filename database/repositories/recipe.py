@@ -196,6 +196,78 @@ def fill_query(
             is_query_empty = False
             query = query.where(RecipeModel.equipment == request_recipe.equipment)
 
+    if isinstance(query, Update):
+        if is_query_empty:
+            return None
+        is_query_empty = True
+
+        if new_recipe != '':
+
+            if request_recipe.name != '':
+                is_query_empty = False
+                request_recipe.name = new_recipe.name
+                query = query.values(name=new_recipe.name)
+
+            if request_recipe.images_name != '':
+                is_query_empty = False
+                request_recipe.images_name = new_recipe.images_name
+                query = query.values(images_name=new_recipe.images_name)
+
+            if request_recipe.ingredients != '':
+                is_query_empty = False
+                request_recipe.ingredients = new_recipe.ingredients
+                query = query.values(ingredients=new_recipe.ingredients)
+
+            if request_recipe.steps != '':
+                is_query_empty = False
+                request_recipe.steps = new_recipe.steps
+                query = query.values(steps=new_recipe.steps)
+
+            if request_recipe.time_required != '':
+                is_query_empty = False
+                request_recipe.time_required = new_recipe.time_required
+                query = query.values(time_required=new_recipe.time_required)
+
+            if request_recipe.portions_quantity != '':
+                is_query_empty = False
+                request_recipe.portions_quantity = new_recipe.portions_quantity
+                query = query.values(portions_quantity=new_recipe.portions_quantity)
+
+            if request_recipe.difficulty != '':
+                is_query_empty = False
+                request_recipe.difficulty = new_recipe.difficulty
+                query = query.values(difficulty=new_recipe.difficulty)
+
+            if request_recipe.vegetarian != '':
+                is_query_empty = False
+                request_recipe.vegetarian = new_recipe.vegetarian
+                query = query.values(vegetarian=new_recipe.vegetarian)
+
+            if request_recipe.kitchen != '':
+                is_query_empty = False
+                request_recipe.kitchen = new_recipe.kitchen
+                query = query.values(kitchen=new_recipe.kitchen)
+
+            if request_recipe.technology != '':
+                is_query_empty = False
+                request_recipe.technology = new_recipe.technology
+                query = query.values(technology=new_recipe.technology)
+
+            if request_recipe.calories != '':
+                is_query_empty = False
+                request_recipe.calories = new_recipe.calories
+                query = query.values(calories=new_recipe.calories)
+
+            if request_recipe.categories != '':
+                is_query_empty = False
+                request_recipe.categories = new_recipe.categories
+                query = query.values(categories=new_recipe.categories)
+
+            if request_recipe.equipment != '':
+                is_query_empty = False
+                request_recipe.equipment = new_recipe.equipment
+                query = query.values(equipment=new_recipe.equipment)
+
     if is_query_empty:
         return None
 
@@ -236,13 +308,12 @@ class RecipeRepository:
 
         if recipes and recipes[0]:
             return recipes[0]
-
         return None
 
     async def delete(self, request_recipe: RecipeDB = '') -> Optional[RecipeDB]:
         query = fill_query(delete(RecipeDB), request_recipe)
 
-        response_recipe = await self.get_all(request_recipe)
+        response_recipe = await self.get_one(request_recipe)
         await self.session.execute(query)
         await self.session.commit()
 
@@ -250,11 +321,11 @@ class RecipeRepository:
 
     async def add(
             self,
-            request_recipe: Union[RecipeDB, List[RecipeDB]]
+            request_recipes: Union[RecipeDB, List[RecipeDB]]
     ) -> Union[RecipeDB, List[RecipeDB], None]:
 
-        if isinstance(request_recipe, RecipeDB):
-            request_recipes = [request_recipe]
+        if isinstance(request_recipes, RecipeDB):
+            request_recipes = [request_recipes]
 
         for recipe in request_recipes:
             params = {}
