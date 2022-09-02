@@ -284,21 +284,21 @@ class RecipeRepository:
 
         recipes = [
             RecipeDB(
-                uid=button.uid,
-                name=button.name,
-                images_name=button.images_name,
-                ingredients=button.ingredients,
-                steps=button.steps,
-                time_required=button.time_required,
-                portions_quantity=button.portions_quantity,
-                difficulty=button.difficulty,
-                vegetarian=button.vegetarian,
-                kitchen=button.kitchen,
-                technology=button.technology,
-                calories=button.calories,
-                categories=button.categories,
-                equipment=button.equipment
-            ) for button in (await self.session.execute(query)).scalars()
+                uid=recipe.uid,
+                name=recipe.name,
+                images_name=recipe.images_name,
+                ingredients=recipe.ingredients,
+                steps=recipe.steps,
+                time_required=recipe.time_required,
+                portions_quantity=recipe.portions_quantity,
+                difficulty=recipe.difficulty,
+                vegetarian=recipe.vegetarian,
+                kitchen=recipe.kitchen,
+                technology=recipe.technology,
+                calories=recipe.calories,
+                categories=recipe.categories,
+                equipment=recipe.equipment
+            ) for recipe in (await self.session.execute(query)).scalars()
         ]
 
         return recipes
