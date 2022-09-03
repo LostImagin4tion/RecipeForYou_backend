@@ -185,9 +185,9 @@ class TokenRepository:
             response_tokens.append(await self.get_one(token))
 
         if len(response_tokens) == 1:
-            response_ingredients = response_tokens[0]
+            response_tokens = response_tokens[0]
         elif not len(response_tokens):
-            response_ingredients = None
+            response_tokens = None
 
         return response_tokens
 
