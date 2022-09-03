@@ -78,6 +78,8 @@ class UserDataModel(Base):
 
 
 class TokenModel(Base):
+    __tablename__ = 'token'
+
     uid = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)
     is_active = Column(Boolean, default=True)
     user_email = Column(

@@ -9,7 +9,7 @@ from database.create_tables import IngredientModel
 
 
 class IngredientDB:
-    __tablename__ = RecipeModel.__tablename__
+    __tablename__ = IngredientModel.__tablename__
 
     uid: Union[UUID, str, None]
     name: str
@@ -29,7 +29,7 @@ class IngredientDB:
         self.categories = categories
 
     def __repr__(self):
-        return f'<RecipeDB(uid={self.uid}, name={self.name}, images_name={self.images_name},' \
+        return f'<IngredientDB(uid={self.uid}, name={self.name}, images_name={self.images_name},' \
                f'categories={self.categories})>'
 
     __str__ = __repr__
@@ -210,7 +210,7 @@ class IngredientRepository:
         if len(response_ingredients) == 1:
             response_ingredients = response_ingredients[0]
         elif not len(response_ingredients):
-            response_recipes = None
+            response_ingredients = None
 
         return response_ingredients
 
