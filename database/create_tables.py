@@ -27,7 +27,7 @@ convention = {
     'pk': 'pk__%(table_name)s'
 }
 
-engine = create_async_engine(settings.DB_PATH)
+engine = create_async_engine(settings.DB_PATH, encoding='utf-8')
 
 SessionLocal = sessionmaker(
     autocommit=False,
@@ -48,16 +48,16 @@ class RecipeModel(Base):
     name = Column(String, nullable=False, unique=True)
     images_name = Column(String)
     ingredients = Column(String)
-    steps = Column(String),
-    time_required = Column(String),
-    portions_quantity = Column(String),
-    difficulty = Column(String),
-    vegetarian = Column(String),
-    kitchen = Column(String),
-    technology = Column(String),
-    calories = Column(String),
-    categories = Column(String),
-    equipment = Column(String),
+    steps = Column(String)
+    time_required = Column(String)
+    portions_quantity = Column(String)
+    difficulty = Column(String)
+    vegetarian = Column(String)
+    kitchen = Column(String)
+    technology = Column(String)
+    calories = Column(String)
+    categories = Column(String)
+    equipment = Column(String)
 
 
 class IngredientModel(Base):
@@ -73,7 +73,7 @@ class UserDataModel(Base):
     __tablename__ = 'user_data'
 
     uid = Column(UUID(as_uuid=True), default=uuid4, primary_key=True)
-    email = Column(String, nullable=False)
+    email = Column(String, nullable=False, unique=True)
     is_admin = Column(Boolean, default=False)
 
 
@@ -92,10 +92,10 @@ class TokenModel(Base):
 # create_tables
 async def main():
     async with engine.begin() as connection:
-        await connection.run_sync(Base.metadata.create_all())
+        await connection.run_sync(Base.metadata.create_all)
         await connection.execute(text('CREATE EXTENSION IF NOT EXISTS "uuid-ossp"'))
     return 0
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.get_event_loop().run_until_complete(main())
