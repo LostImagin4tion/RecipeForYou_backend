@@ -25,7 +25,7 @@ async def index(
     ]
 
 
-@RecipeRouter.get("/{id}", response_model=RecipeSchema)
+@RecipeRouter.get('/{id}', response_model=RecipeSchema)
 async def get(
         uid: UUID,
         recipe_service: RecipeService = Depends()
@@ -33,7 +33,11 @@ async def get(
     return (await recipe_service.get(RecipeDB(uid))).normalize()
 
 
-@RecipeRouter.patch("/{id}", response_model=RecipeSchema)
+@RecipeRouter.patch(
+    '/{id}',
+    response_model=RecipeSchema,
+    status_code=status.HTTP_404_NOT_FOUND
+)
 async def update(
     uid: int,
     new_recipe: RecipeDB,
@@ -48,7 +52,7 @@ async def update(
 
 
 @RecipeRouter.delete(
-    "/{id}", status_code=status.HTTP_204_NO_CONTENT
+    '/{id}', status_code=status.HTTP_404_NOT_FOUND
 )
 async def delete(
         uid: int,
@@ -58,7 +62,9 @@ async def delete(
 
 
 @RecipeRouter.get(
-    "/{id}/ingredients/", response_model=List[RecipeSchema]
+    '/{id}/ingredients/',
+    response_model=List[RecipeSchema],
+    status_code=status.HTTP_404_NOT_FOUND
 )
 async def get_ingredients(
         uid: int,
