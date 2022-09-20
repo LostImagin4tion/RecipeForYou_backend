@@ -54,7 +54,7 @@ async def delete(
         uid: int,
         recipe_service: RecipeService = Depends()
 ):
-    return recipe_service.delete(RecipeDB(uid))
+    return (await recipe_service.delete(RecipeDB(uid))).normalize()
 
 
 @RecipeRouter.get(
