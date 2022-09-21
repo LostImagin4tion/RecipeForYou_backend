@@ -3,6 +3,7 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, status
 
+from api.schemas.ingredient_schema import IngredientSchema
 from api.schemas.recipe_schema import RecipeSchema
 from api.services.recipe_service import RecipeService
 from database.repositories.recipe_repository import RecipeDB
@@ -52,7 +53,8 @@ async def update(
 
 
 @RecipeRouter.delete(
-    '/{id}', status_code=status.HTTP_404_NOT_FOUND
+    '/{id}',
+    status_code=status.HTTP_404_NOT_FOUND
 )
 async def delete(
         uid: int,
@@ -63,7 +65,7 @@ async def delete(
 
 @RecipeRouter.get(
     '/{id}/ingredients/',
-    response_model=List[RecipeSchema],
+    response_model=List[IngredientSchema],
     status_code=status.HTTP_404_NOT_FOUND
 )
 async def get_ingredients(
