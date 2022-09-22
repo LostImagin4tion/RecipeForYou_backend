@@ -65,14 +65,10 @@ async def delete(
 
 @RecipeRouter.get(
     '/{id}/ingredients/',
-    response_model=List[IngredientSchema],
     status_code=status.HTTP_404_NOT_FOUND
 )
 async def get_ingredients(
         uid: int,
         recipe_service: RecipeService = Depends()
 ):
-    return [
-        ingredient.normalize()
-        for ingredient in (await recipe_service.get_ingredients(RecipeDB(uid))).ingredients
-    ]
+    return (await recipe_service.get_ingredients(RecipeDB(uid))).ingredients
