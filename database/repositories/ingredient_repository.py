@@ -67,6 +67,14 @@ class IngredientDB:
             (self.categories == other.categories or self.categories == '')
         )
 
+    def normalize(self) -> dict:
+        return {
+            "uid": self.uid.__str__(),
+            "name": self.name.__str__(),
+            "imagesName": self.name.__str__(),
+            "categories": self.categories.__str__(),
+        }
+
 
 def fill_query(
         query,

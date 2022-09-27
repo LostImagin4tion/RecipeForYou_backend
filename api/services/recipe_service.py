@@ -34,4 +34,3 @@ class RecipeService:
 
     async def delete(self, recipe: RecipeDB) -> Optional[RecipeDB]:
         return await self.recipe_repository.delete(recipe)
-

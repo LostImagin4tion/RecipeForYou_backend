@@ -4,71 +4,59 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, status
 
 from api.schemas.ingredient_schema import IngredientSchema
-from api.schemas.recipe_schema import RecipeSchema
-from api.services.recipe_service import RecipeService
-from database.repositories.recipe_repository import RecipeDB
+from api.services.ingredient_service import IngredientService
+from database.repositories.ingredient_repository import IngredientDB
 
-RecipeRouter = APIRouter(
-    prefix="/v1/recipes", tags=["Recipe"]
+IngredientRouter = APIRouter(
+    prefix="/v1/ingredients", tags=["Ingredient"]
 )
 
 
-@RecipeRouter.get("/", response_model=List[RecipeSchema])
+@IngredientRouter.get("/", response_model=List[IngredientSchema])
 async def index(
     name: Optional[str] = None,
     page_size: Optional[int] = 100,
     start_index: Optional[int] = 0,
-    recipe_service: RecipeService = Depends(),
+    ingredient_service: IngredientService = Depends(),
 ):
     return [
-        recipe.normalize()
-        for recipe in await(recipe_service.get_all())
+        ingredient.normalize()
+        for ingredient in await ingredient_service.get_all()
     ]
 
 
-@RecipeRouter.get('/{id}', response_model=RecipeSchema)
+@IngredientRouter.get('/{id}', response_model=IngredientSchema)
 async def get(
         uid: UUID,
-        recipe_service: RecipeService = Depends()
+        ingredient_service: IngredientService = Depends()
 ):
-    return (await recipe_service.get(RecipeDB(uid))).normalize()
+    return (await ingredient_service.get(IngredientDB(uid))).normalize()
 
 
-@RecipeRouter.patch(
+@IngredientRouter.patch(
     '/{id}',
-    response_model=RecipeSchema,
+    response_model=IngredientSchema,
     status_code=status.HTTP_404_NOT_FOUND
 )
 async def update(
     uid: int,
-    new_recipe: RecipeDB,
-    recipe_service: RecipeService = Depends(),
+    new_ingredient: IngredientDB,
+    ingredient_service: IngredientService = Depends(),
 ):
     return (
-        await recipe_service.update(
-            request_recipe=RecipeDB(uid),
-            new_recipe=new_recipe
+        await ingredient_service.update(
+            request_ingredient=IngredientDB(uid),
+            new_ingredient=new_ingredient
         )
     ).normalize()
 
 
-@RecipeRouter.delete(
+@IngredientRouter.delete(
     '/{id}',
     status_code=status.HTTP_404_NOT_FOUND
 )
 async def delete(
         uid: int,
-        recipe_service: RecipeService = Depends()
+        ingredient_service: IngredientService = Depends()
 ):
-    return (await recipe_service.delete(RecipeDB(uid))).normalize()
-
-
-@RecipeRouter.get(
-    '/{id}/ingredients/',
-    status_code=status.HTTP_404_NOT_FOUND
-)
-async def get_ingredients(
-        uid: int,
-        recipe_service: RecipeService = Depends()
-):
-    return (await recipe_service.get_ingredients(RecipeDB(uid))).ingredients
+    return (await ingredient_service.delete(IngredientDB(uid))).normalize()

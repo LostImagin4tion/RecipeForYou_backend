@@ -26,7 +26,7 @@ async def index(
 ):
     return [
         recipe.normalize()
-        for recipe in await(recipe_service.get_all())
+        for recipe in await recipe_service.get_all()
     ]
 
 
