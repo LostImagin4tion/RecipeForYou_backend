@@ -60,6 +60,13 @@ class TokenDB:
             (self.user_email == other.user_email or self.user_email == '')
         )
 
+    def normalize(self) -> dict:
+        return {
+            "uid": self.uid.__str__(),
+            "isActive": self.is_active.__str__(),
+            "userEmail": self.user_email.__str__(),
+        }
+
 
 def fill_query(
         query,
