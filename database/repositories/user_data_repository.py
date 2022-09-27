@@ -60,6 +60,13 @@ class UserDataDB:
             (self.is_admin == other.is_admin or self.is_admin == '')
         )
 
+    def normalize(self) -> dict:
+        return {
+            "uid": self.uid.__str__(),
+            "email": self.email.__str__(),
+            "isAdmin": self.is_admin.__str__(),
+        }
+
 
 def fill_query(
         query,

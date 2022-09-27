@@ -7,12 +7,12 @@ from api.schemas.token_schema import TokenSchema
 from api.services.token_service import TokenService
 from database.repositories.token_repository import TokenDB
 
-tokenRouter = APIRouter(
+TokenRouter = APIRouter(
     prefix="/v1/tokens", tags=["token"]
 )
 
 
-@tokenRouter.get("/", response_model=List[TokenSchema])
+@TokenRouter.get("/", response_model=List[TokenSchema])
 async def index(
     name: Optional[str] = None,
     page_size: Optional[int] = 100,
@@ -25,7 +25,7 @@ async def index(
     ]
 
 
-@tokenRouter.get('/{id}', response_model=TokenSchema)
+@TokenRouter.get('/{id}', response_model=TokenSchema)
 async def get(
         uid: UUID,
         token_service: TokenService = Depends()
@@ -33,7 +33,7 @@ async def get(
     return (await token_service.get(TokenDB(uid))).normalize()
 
 
-@tokenRouter.patch(
+@TokenRouter.patch(
     '/{id}',
     response_model=TokenSchema,
     status_code=status.HTTP_404_NOT_FOUND
@@ -51,7 +51,7 @@ async def update(
     ).normalize()
 
 
-@tokenRouter.delete(
+@TokenRouter.delete(
     '/{id}',
     status_code=status.HTTP_404_NOT_FOUND
 )
